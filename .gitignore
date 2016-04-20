@@ -9,3 +9,12 @@ gradle-app.setting
 
 # Cache of project
 .gradletasknamecache
+
+#ignore logs
+logs/
+
+#ignore personal configuration files
+localhost_cfg.yml
+
+#ignore IDE files
+*.iml

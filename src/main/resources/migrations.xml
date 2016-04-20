@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+    <changeSet author="apsampson (generated)" id="1460140471939-1">
+        <createSequence sequenceName="account_id_seq"/>
+    </changeSet>
+    <changeSet author="apsampson (generated)" id="1460140471939-2">
+        <createSequence sequenceName="budget_id_seq"/>
+    </changeSet>
+    <changeSet author="apsampson (generated)" id="1460140471939-3">
+        <createSequence sequenceName="category_id_seq"/>
+    </changeSet>
+    <changeSet author="apsampson (generated)" id="1460140471939-4">
+        <createSequence sequenceName="transaction_id_seq"/>
+    </changeSet>
+    <changeSet author="apsampson (generated)" id="1460140471939-5">
+        <createSequence sequenceName="user_id_seq"/>
+    </changeSet>
+    <changeSet author="apsampson (generated)" id="1460140471939-6">
+        <createTable tableName="account">
+            <column autoIncrement="true" name="id" type="SERIAL">
+                <constraints primaryKey="true" primaryKeyName="account_pk"/>
+            </column>
+            <column name="name" type="VARCHAR(60)"/>
+            <column name="budget_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="apsampson (generated)" id="1460140471939-7">
+        <createTable tableName="budget">
+            <column autoIncrement="true" name="id" type="SERIAL">
+                <constraints primaryKey="true" primaryKeyName="budget_pk"/>
+            </column>
+            <column name="name" type="VARCHAR(60)"/>
+            <column name="starting_balance" type="DECIMAL"/>
+            <column name="daily_goal" type="DECIMAL"/>
+            <column name="duration" type="INT"/>
+            <column name="date_created" type="TIMESTAMP WITH TIME ZONE"/>
+            <column name="date_modified" type="TIMESTAMP WITH TIME ZONE"/>
+            <column name="create_user_id" type="BIGINT"/>
+            <column name="last_modify_user_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="apsampson (generated)" id="1460140471939-8">
+        <createTable tableName="category">
+            <column autoIncrement="true" name="id" type="SERIAL">
+                <constraints primaryKey="true" primaryKeyName="category_pk"/>
+            </column>
+            <column name="name" type="VARCHAR(40)"/>
+            <column name="budget_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="apsampson (generated)" id="1460140471939-9">
+        <createTable tableName="transaction">
+            <column autoIncrement="true" name="id" type="SERIAL">
+                <constraints primaryKey="true" primaryKeyName="transaction_pk"/>
+            </column>
+            <column name="date" type="date"/>
+            <column name="amount" type="DECIMAL"/>
+            <column name="comment" type="VARCHAR(140)"/>
+            <column name="category_id" type="BIGINT"/>
+            <column name="account_id" type="BIGINT"/>
+            <column name="budget_id" type="BIGINT"/>
+            <column name="date_created" type="TIMESTAMP WITH TIME ZONE"/>
+            <column name="date_modified" type="TIMESTAMP WITH TIME ZONE"/>
+            <column name="create_user_id" type="BIGINT"/>
+            <column name="last_modify_user_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="apsampson (generated)" id="1460140471939-10">
+        <createTable tableName="user">
+            <column autoIncrement="true" name="id" type="SERIAL">
+                <constraints primaryKey="true" primaryKeyName="user_pk"/>
+            </column>
+            <column name="username" type="VARCHAR(45)"/>
+            <column name="first_name" type="VARCHAR(90)"/>
+            <column name="last_name" type="VARCHAR(120)"/>
+            <column name="password" type="TEXT"/>
+            <column name="date_created" type="TIMESTAMP WITH TIME ZONE"/>
+            <column name="date_modified" type="TIMESTAMP WITH TIME ZONE"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="apsampson (generated)" id="1460140471939-11">
+        <addUniqueConstraint columnNames="username" constraintName="unique_user_username" tableName="user"/>
+    </changeSet>
+    <changeSet author="apsampson (generated)" id="1460140471939-12">
+        <createIndex indexName="fki_transaction_account_fk" tableName="transaction">
+            <column name="account_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="apsampson (generated)" id="1460140471939-13">
+        <createIndex indexName="fki_transaction_category_fk" tableName="transaction">
+            <column name="category_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="apsampson (generated)" id="1460140471939-14">
+        <addForeignKeyConstraint baseColumnNames="budget_id" baseTableName="account" constraintName="account_budget_fk" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="budget"/>
+    </changeSet>
+    <changeSet author="apsampson (generated)" id="1460140471939-15">
+        <addForeignKeyConstraint baseColumnNames="budget_id" baseTableName="category" constraintName="category_budget_fk" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="budget"/>
+    </changeSet>
+    <changeSet author="apsampson (generated)" id="1460140471939-16">
+        <addForeignKeyConstraint baseColumnNames="account_id" baseTableName="transaction" constraintName="transaction_account_fk" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="account"/>
+    </changeSet>
+    <changeSet author="apsampson (generated)" id="1460140471939-17">
+        <addForeignKeyConstraint baseColumnNames="budget_id" baseTableName="transaction" constraintName="transaction_budget_fk" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="budget"/>
+    </changeSet>
+    <changeSet author="apsampson (generated)" id="1460140471939-18">
+        <addForeignKeyConstraint baseColumnNames="category_id" baseTableName="transaction" constraintName="transaction_category_fk" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="category"/>
+    </changeSet>
+    <changeSet author="apsampson (generated)" id="1460140471939-19">
+        <addForeignKeyConstraint baseColumnNames="create_user_id" baseTableName="transaction" constraintName="transaction_create_user_fk" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="user"/>
+    </changeSet>
+    <changeSet author="apsampson (generated)" id="1460140471939-20">
+        <addForeignKeyConstraint baseColumnNames="last_modify_user_id" baseTableName="transaction" constraintName="transaction_modify_user_fk" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="user"/>
+    </changeSet>
+</databaseChangeLog>
